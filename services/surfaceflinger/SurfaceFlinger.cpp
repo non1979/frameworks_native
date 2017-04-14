@@ -2533,9 +2533,8 @@ void SurfaceFlinger::setTransactionState(
         if (s.client != NULL) {
             sp<IBinder> binder = s.client->asBinder();
             if (binder != NULL) {
-                String16 desc(binder->getInterfaceDescriptor());
-                if (desc == ISurfaceComposerClient::descriptor) {
-                    sp<Client> client( static_cast<Client *>(s.client.get()) );
+                if (binder->queryLocalInterface(ISurfaceComposerClient::descriptor) != NULL) {    
+                sp<Client> client( static_cast<Client *>(s.client.get()) );
                     transactionFlags |= setClientStateLocked(client, s.state);
                 }
             }
